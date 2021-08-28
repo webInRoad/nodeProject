@@ -1,3 +1,4 @@
+const queryString = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 
@@ -12,6 +13,9 @@ const serverHandler = (req, res) => {
 	// res.end(JSON.stringify(resData))
 	const url = req.url
 	req.path = url.split('?')[0]
+
+	// 解析参数
+	req.query = queryString.parse(url.split('?')[1])
 	// 处理 blog 路由
 	const blogData = handleBlogRouter(req, res)
 	if (blogData) {
