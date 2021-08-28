@@ -26,7 +26,23 @@ getDetail = (id) => {
 		author: 'zhangsan'
 	}
 }
+newBlog = (blogData) => {
+	console.info(blogData, 'blog data')
+	return {
+		id: 3
+	}
+}
+updateBlog = (id, blogData) => {
+	console.info(id, blogData, 'id and blog')
+	return false
+}
+deleteBlog = (id) => {
+	return true
+}
 module.exports = {
 	getList,
-	getDetail
+	getDetail,
+	newBlog,
+	updateBlog,
+	deleteBlog
 }

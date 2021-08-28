@@ -1,7 +1,14 @@
-const { getList, getDetail } = require('../controller/blog')
-const { SuccessModal } = require('../model/resModal')
+const {
+	getList,
+	getDetail,
+	newBlog,
+	updateBlog,
+	deleteBlog
+} = require('../controller/blog')
+const { SuccessModal, ErrorModal } = require('../model/resModal')
 const handleBlogRouter = (req, res) => {
 	const method = req.method
+	const { id } = req.query
 
 	if (method === 'GET' && req.path === '/api/blog/list') {
 		const { author, keyword } = req.query
@@ -9,23 +16,28 @@ const handleBlogRouter = (req, res) => {
 		return new SuccessModal(list)
 	}
 	if (method === 'GET' && req.path === '/api/blog/detail') {
-		const { id } = req.query
 		const data = getDetail(id)
 		return new SuccessModal(data)
 	}
 	if (method === 'POST' && req.path === '/api/blog/add') {
-		return {
-			msg: '新增博客的接口'
-		}
+		const data = newBlog(req.body)
+		return new SuccessModal(data)
 	}
 	if (method === 'POST' && req.path === '/api/blog/update') {
-		return {
-			msg: '更新博客的接口'
+		console.info(req.body, 'req.body')
+		const data = updateBlog(id, req.body)
+		if (data) {
+			return new SuccessModal()
+		} else {
+			return new ErrorModal('更新博客失败')
 		}
 	}
 	if (method === 'POST' && req.path === '/api/blog/del') {
-		return {
-			msg: '删除博客的接口'
+		const flag = deleteBlog(id)
+		if (flag) {
+			return new SuccessModal()
+		} else {
+			return new ErrorModal()
 		}
 	}
 }

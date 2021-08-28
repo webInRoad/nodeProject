@@ -22,7 +22,8 @@ const getPostData = (req) => {
 				resovle({})
 				return
 			}
-			resovle(JSON.parse(reqData.toString()))
+			console.info(reqData, 'reqData')
+			resovle(JSON.parse(reqData))
 		})
 	})
 	return promise
