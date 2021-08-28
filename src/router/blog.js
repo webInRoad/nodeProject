@@ -37,7 +37,7 @@ const handleBlogRouter = (req, res) => {
 		if (flag) {
 			return new SuccessModal()
 		} else {
-			return new ErrorModal()
+			return new ErrorModal('删除博客失败')
 		}
 	}
 }
