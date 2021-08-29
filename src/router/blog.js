@@ -17,12 +17,16 @@ const handleBlogRouter = (req, res) => {
 		})
 	}
 	if (method === 'GET' && req.path === '/api/blog/detail') {
-		const data = getDetail(id)
-		return new SuccessModal(data)
+		return getDetail(id).then((list) => {
+			return new SuccessModal(list)
+		})
 	}
 	if (method === 'POST' && req.path === '/api/blog/add') {
-		const data = newBlog(req.body)
-		return new SuccessModal(data)
+		req.body.createtime = Date.now()
+		req.body.author = 'zhangsan'
+		return newBlog(req.body).then((data) => {
+			return new SuccessModal(data)
+		})
 	}
 	if (method === 'POST' && req.path === '/api/blog/update') {
 		console.info(req.body, 'req.body')
