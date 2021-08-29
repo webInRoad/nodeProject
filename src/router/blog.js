@@ -39,12 +39,14 @@ const handleBlogRouter = (req, res) => {
 		})
 	}
 	if (method === 'POST' && req.path === '/api/blog/del') {
-		const flag = deleteBlog(id)
-		if (flag) {
-			return new SuccessModal()
-		} else {
-			return new ErrorModal('删除博客失败')
-		}
+		const author = 'zhangsan'
+		return deleteBlog(id, author).then((val) => {
+			if (val) {
+				return new SuccessModal()
+			} else {
+				return new ErrorModal('删除博客失败')
+			}
+		})
 	}
 }
 module.exports = handleBlogRouter
