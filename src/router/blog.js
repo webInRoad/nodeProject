@@ -30,12 +30,13 @@ const handleBlogRouter = (req, res) => {
 	}
 	if (method === 'POST' && req.path === '/api/blog/update') {
 		console.info(req.body, 'req.body')
-		const data = updateBlog(id, req.body)
-		if (data) {
-			return new SuccessModal()
-		} else {
-			return new ErrorModal('更新博客失败')
-		}
+		return updateBlog(id, req.body).then((val) => {
+			if (val) {
+				return new SuccessModal()
+			} else {
+				return new ErrorModal('更新博客失败')
+			}
+		})
 	}
 	if (method === 'POST' && req.path === '/api/blog/del') {
 		const flag = deleteBlog(id)
