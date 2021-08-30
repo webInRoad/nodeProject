@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/webInRoad/nodeProject#readme",
   "dependencies": {
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "redis": "^3.1.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
