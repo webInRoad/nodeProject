@@ -1,22 +1,16 @@
 const { login } = require('../controller/user')
 const { SuccessModal, ErrorModal } = require('../model/resModal')
 
-const getCookieExpires = () => {
-	const d = new Date()
-	d.setTime(d.getTime() + 24 * 60 * 60 * 1000)
-	return d.toGMTString()
-}
 const handleUserRouter = (req, res) => {
 	const method = req.method
 	if (method === 'GET' && req.path === '/api/user/login') {
 		// const { username, password } = req.body
 		const { username, password } = req.query
-		return login(username, password).then((flag) => {
-			if (flag.username) {
-				res.setHeader(
-					'Set-cookie',
-					`username=${username};path=/;httpOnly;expires=${getCookieExpires()}`
-				)
+		return login(username, password).then((data) => {
+			if (data.username) {
+				// 设置session
+				req.session.username = data.username
+				req.session.realname = data.realname
 				return new SuccessModal()
 			} else {
 				return new ErrorModal('登录失败')
@@ -24,10 +18,10 @@ const handleUserRouter = (req, res) => {
 		})
 	}
 	if (method === 'GET' && req.path === '/api/user/login-test') {
-		if (req.cookie.username) {
+		if (req.session.username) {
 			return Promise.resolve(
 				new SuccessModal({
-					username: req.cookie.username
+					session: req.session
 				})
 			)
 		} else {
