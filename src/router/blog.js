@@ -17,11 +17,16 @@ const handleBlogRouter = (req, res) => {
 	const { id } = req.query
 
 	if (method === 'GET' && req.path === '/api/blog/list') {
-		let loginCheckResult = loginCheck(req)
-		if (!loginCheckResult) {
-			return loginCheckResult
+		let { author, keyword } = req.query
+		console.info(req.session, 'req.session.username')
+		console.info(req.query.isadmin, 'req.query.isadmin')
+		if (req.query.isadmin) {
+			let loginCheckResult = loginCheck(req)
+			if (!loginCheckResult) {
+				return loginCheckResult
+			}
+			author = req.session.username
 		}
-		const { author, keyword } = req.query
 		return getList(author, keyword).then((list) => {
 			return new SuccessModal(list)
 		})
@@ -35,7 +40,7 @@ const handleBlogRouter = (req, res) => {
 			return new SuccessModal(list)
 		})
 	}
-	if (method === 'POST' && req.path === '/api/blog/add') {
+	if (method === 'POST' && req.path === '/api/blog/new') {
 		let loginCheckResult = loginCheck(req)
 		if (!loginCheckResult) {
 			return loginCheckResult

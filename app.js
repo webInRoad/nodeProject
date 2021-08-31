@@ -81,6 +81,7 @@ const serverHandler = (req, res) => {
 	// console.info(req.session, 'req.session')
 	let needSetCookie = false
 	let userId = req.cookie.userid
+	console.info(userId, 'userId')
 	if (!userId) {
 		needSetCookie = true
 		userId = `${Date.now()}_${Math.random()}`
@@ -88,6 +89,7 @@ const serverHandler = (req, res) => {
 	req.sessionId = userId
 	get(req.sessionId)
 		.then((sessionData) => {
+			console.info(sessionData, 'sessionData')
 			if (sessionData == null) {
 				req.session = {}
 			} else {
@@ -115,6 +117,7 @@ const serverHandler = (req, res) => {
 			const userResult = handleUserRouter(req, res)
 			if (userResult) {
 				userResult.then((userData) => {
+					console.info(needSetCookie, 'needSetCookie')
 					if (needSetCookie) {
 						res.setHeader(
 							'Set-Cookie',
