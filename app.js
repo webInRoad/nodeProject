@@ -2,6 +2,7 @@ const queryString = require('querystring')
 const { get, set } = require('./src/db/redis')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
+const { access } = require('./src/utils/log')
 
 // session数据
 // const SESSION_DATA = {}
@@ -39,6 +40,7 @@ const getPostData = (req) => {
 	return promise
 }
 const serverHandler = (req, res) => {
+  access(`${req.method} -- ${req.url} -- ${req.headers["user-agent"]} -- ${Date.now()}`)
 	res.setHeader('Content-type', 'application/json')
 
 	// const resData = {
