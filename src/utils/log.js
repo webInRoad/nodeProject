@@ -12,7 +12,7 @@ function createWriteStream(fileName) {
 
 // 将内容写入日志
 function writeLog(writeStream, log) {
-  writeStream.writeLog(log + "\n");
+  writeStream.write(log + "\n");
 }
 const accessStream = createWriteStream("access.log");
 function access(content) {
